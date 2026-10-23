@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Food-aid routes, La Paz</title>
+<meta name="description" content="Rebuilding the 2020 food-aid route optimization for La Paz, Baja California Sur, with open data and simulated households.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Food-aid routes, La Paz">
+<meta property="og:description" content="Rebuilding the 2020 food-aid route optimization for La Paz, Baja California Sur, with open data and simulated households.">
+<meta property="og:image" content="https://roviraplancarte.github.io/og.png">
+<meta property="og:url" content="https://roviraplancarte.github.io/rutas-2020/">
+<meta property="og:image:alt" content="Santiago Rovira, marketing measurement, with a hexagon map of clustered values">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_MX">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://roviraplancarte.github.io/rutas-2020/">
+<link rel="alternate" hreflang="es" href="https://roviraplancarte.github.io/es/rutas-2020/">
+<link rel="alternate" hreflang="x-default" href="https://roviraplancarte.github.io/rutas-2020/">
+
+<link rel="preconnect" href="https://tile.openstreetmap.org">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preload" href="../fonts/source-serif-4-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="demo.css">
+<noscript><style>#saving, .toggle, .total, #stops-details, table { display: none !important; }</style></noscript>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<main id="main" class="wrap">
+  <aside>
+    <div class="toprow">
+      <nav class="topnav" aria-label="Site"><a href="../">Santiago Rovira</a><a href="../engineering/">Engineering</a><a href="../statistics/">Statistics</a></nav>
+      <nav class="lang" aria-label="Language"><span aria-current="true" lang="en" aria-label="English (EN)">EN</span><a href="../es/rutas-2020/" hreflang="es" lang="es" aria-label="Español (ES)">ES</a></nav>
+    </div>
+    <div>
+      <div class="label">La Paz, Baja California Sur · 2020</div>
+      <h1>Food-aid routes for four brigades</h1>
+    </div>
+    <p>In the first weeks of COVID-19, businesses and nonprofits formed Alianza Comunitaria BCS to bring food and
+      hygiene supplies to more than 40,000 families in the state. As the data analyst of CIENCIASBCS, one of its members,
+      I planned the delivery routes for its brigades in La Paz. The 2020 household data is not public, so this rebuilds
+      the method on real streets with simulated households. <a href="https://comovamoslapaz.org/acbcs/">About the
+      coalition</a></p>
+
+    <div class="toggle" role="group" aria-label="Plan">
+      <button type="button" id="b-sectores" aria-pressed="false">By sector</button>
+      <button type="button" id="b-optimizado" aria-pressed="true">Optimized</button>
+    </div>
+
+    <div>
+      <div class="total"><strong id="km">–</strong><span id="km-note">km driven in total</span></div>
+      <p class="muted" id="saving" role="status">Loading routes…</p>
+      <noscript><p class="muted">This page needs JavaScript for its numbers and map.</p></noscript>
+    </div>
+
+    <table aria-label="Routes">
+      <thead><tr><th>Brigade</th><th>Stops</th><th>Packages</th><th>km</th></tr></thead>
+      <tbody id="rows"><tr><td>1</td><td>–</td><td>–</td><td>–</td></tr><tr><td>2</td><td>–</td><td>–</td><td>–</td></tr><tr><td>3</td><td>–</td><td>–</td><td>–</td></tr><tr><td>4</td><td>–</td><td>–</td><td>–</td></tr></tbody>
+    </table>
+
+    <details id="stops-details">
+      <summary>Every stop as a table</summary>
+      <div class="stops"><table aria-label="Stops"><thead><tr><th>Brigade</th><th>Stop</th><th>Packages</th></tr></thead><tbody id="stops"></tbody></table></div>
+    </details>
+
+  </aside>
+  <div class="mapwrap" role="region" aria-label="Map of La Paz with delivery routes">
+    <div id="map"></div>
+    <picture class="preview" id="preview">
+      <source srcset="mapa-oscuro-movil.webp" media="(max-width: 820px) and (prefers-color-scheme: dark)">
+      <source srcset="mapa-claro-movil.webp" media="(max-width: 820px)">
+      <source srcset="mapa-oscuro.webp" media="(prefers-color-scheme: dark)">
+      <img src="mapa-claro.webp" width="1000" height="800" alt="" fetchpriority="high">
+    </picture>
+    <p class="mapmsg" id="mapmsg" hidden></p>
+  </div>
+  <div class="notes">
+    <p class="note"><strong>By sector</strong> splits the city into four equal slices around the collection point
+      and always drives to the nearest pending house, the way you plan with a printed map.
+      <strong>Optimized</strong> solves a capacitated vehicle routing problem with OR-Tools: every brigade starts
+      and ends at the collection point and carries at most <span id="cap">45</span> packages. Distances are by
+      road.</p>
+    <p class="note">Streets © OpenStreetMap contributors (ODbL) · road distances with OSRM · map tiles © OpenStreetMap ·
+      households and package counts are simulated (seed 2020). The map loads tiles from OpenStreetMap; no cookies, no analytics. Code: <code>rutas.py</code>.</p>
+    <p><a class="more" href="../incrementalidad/">Next: did the campaign sell?</a></p>
+    <p class="foot">© 2026 Santiago Rovira</p>
+  </div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
